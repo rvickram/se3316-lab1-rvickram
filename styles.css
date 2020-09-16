@@ -4,3 +4,7 @@ body {
 ul {
     list-style-type:none;
 }
+table {
+    width: 20%;
+    border-spacing: 0px;
+}
