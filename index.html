@@ -16,11 +16,15 @@
         <div>
             <form id="searchform">
                 Search by numbers: <input type="text" id="searchnumber" oninput="validateSearchNumber()">
-                <input type="submit" value="Search by Number" onclick="searchByNumber()"><br>
+                <input type="submit" value="Search by Number" id = "searchbynumber" onclick="searchByNumber()"><br>
 
-                Search by text: <input type="text" id="searchtext" oninput="checkSearchText()">
+                Search by text: <input type="text" id="searchtext" oninput="validateSearchText()">
                 <input type="submit" value="Search by Text" onclick="searchByText()"><br><br>
             </form> 
+        </div>
+
+        <div id="overlay" onclick="closeMessage()">
+            <div id="overlay_text">No Results</div>
         </div>
 
         <!-- Display pokemon images + data in a list format -->
