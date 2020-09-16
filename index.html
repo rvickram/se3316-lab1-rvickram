@@ -8,16 +8,18 @@
         <link rel="stylesheet" href="styles.css">
     </head>
 
-    <body>
+    <body onload="load()">
         <!-- Place your content here -->
         <h1>SE 3316 Lab 1</h1>
         <h2>Welcome to Ryan Vickramasinghe's Pokedex</h2>
-        
+
         <div>
             <form id="searchform">
-                Search by numbers: <input type="text" name="searchnumbers"><br>
-                Search by text: <input type="text" name="searchtext"><br><br>
-                <input type="submit" value="Search" onclick="search()">
+                Search by numbers: <input type="text" id="searchnumber" oninput="validateSearchNumber()">
+                <input type="submit" value="Search by Number" onclick="searchByNumber()"><br>
+
+                Search by text: <input type="text" id="searchtext" oninput="checkSearchText()">
+                <input type="submit" value="Search by Text" onclick="searchByText()"><br><br>
             </form> 
         </div>
 
