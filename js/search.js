@@ -91,10 +91,37 @@ function searchByNumber() {
 
 // this function executes the search by Text
 function searchByText() {
-    alert("Search for pokemon!");
+    var searchKey = document.getElementById("searchtext").value;
+    var searchResults = [];
+
     for(i = 0; i < 20; i++) {
-        
+        if (pokemonList[i].name == searchKey) {
+            searchResults.unshift(
+                "Name: " + pokemonList[i].name + 
+                "\nNumber: " + pokemonList[i].number +
+                "\nType: " + pokemonList[i].type +
+                "\nAttack: " + pokemonList[i].attack +
+                "\nDefense: " + pokemonList[i].defense +
+                "\nStamina: " + pokemonList[i].stamina);
+        }
+        else if (pokemonList[i].name.includes(searchKey)) {
+            searchResults.push(
+                "Name: " + pokemonList[i].name + 
+                "\nNumber: " + pokemonList[i].number +
+                "\nType: " + pokemonList[i].type +
+                "\nAttack: " + pokemonList[i].attack +
+                "\nDefense: " + pokemonList[i].defense +
+                "\nStamina: " + pokemonList[i].stamina);
+        }
+
+        if (searchResults.length == 5) break;
     }
+
+    var message = "Showing first 5 results (Click anywhere to close):";
+    for(i = 0; i < searchResults.length; i++) {
+        message += "\n\n" + searchResults[i];
+    }
+    showMessage(message);
 }
 
 // this function was created to display long search results in a closeable way:
