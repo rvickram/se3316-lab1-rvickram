@@ -85,7 +85,7 @@ function validateSearchText() {
     var pat = /^[a-z]+$/;
 
     // check that input is lowercase only
-    if(!pat.test(searchText)) {
+    if(!pat.test(searchText) && searchText.length != 0) {
         alert("You may only enter lowercase letters!");
         document.getElementById("searchtext").value = "";
     }
@@ -185,10 +185,17 @@ function addListItem(parentList, pokemon) {
     var newListItem = document.createElement("li");
     newListItem.className = "results";
 
+    // add the image
     var imageElement = document.createElement("img");
     imageElement.src = "images/" + pokemon.number + ".png";
     imageElement.alt = pokemon.name;
 
+    // add the text information
+    var description = document.createElement("p");
+    description.innerText = pokemon.name;
+
     newListItem.appendChild(imageElement);
+    newListItem.appendChild(description);
+
     parentList.appendChild(newListItem);
 }
