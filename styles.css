@@ -1,14 +1,28 @@
 body {
     background-color: powderblue;
 }
+
 ul {
     list-style-type:none;
     display:inline-block;
 }
+
 li {
-    border:5px solid #000;
+    border:5px solid rgb(0, 0, 0);
     margin-bottom: 5px;
 }
+
+li.results {
+    border:5px solid rgb(255, 0, 0);
+    margin-bottom: 5px;
+
+    display: flex;
+}
+li.results img {
+    width: 50%;
+    height: 50%;
+}
+
 table {
     width: 20%;
     border-spacing: 0px;
