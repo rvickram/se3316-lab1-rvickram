@@ -23,32 +23,66 @@ pokemonList.push({number:"20", name:"raticate", type:"Normal", attack:"161", def
 
 // this function checks to make sure the number search box only contains numbers
 function validateSearchNumber() {
-    text = document.getElementById("searchnumber").value;
+    var elementSearchNumber = document.getElementById("searchnumber");
+    searchNum = elementSearchNumber.value;
+    searchText = document.getElementById("searchtext").value;
 
+    // make sure the text searchbox is empty
+    if (searchText.length != 0) {
+        alert("You cannot search by text and numbers at the same time!");
+        elementSearchNumber.value = "";
+    }
     // check whether the input is non-numberic and alert user
-    if (isNaN(text)) {
+    else if (isNaN(searchNum)) {
         alert("You may only enter numberic values here! Use box below to search text.");
-        document.getElementById("searchnumber").value = "";
+        elementSearchNumber.value = "";
     }
     // make sure number entered is valid (between 1 and 20 inclusive)
-    else if (parseInt(text) < 1 || parseInt(text) > 20) {
+    else if (parseInt(searchNum) < 1 || parseInt(searchNum) > 20) {
         alert("You may only search for numbers between 1 and 20 (inclusive).");
-        document.getElementById("searchnumber").value = "";
+        elementSearchNumber.value = "";
+    }
+    // hide the search results (box empty)
+    else if (searchNum.length == 0) {
+        alert("textbox empty!")
+    }
+    else {
+        // execute the search (don't allow input while searching)
+        elementSearchNumber.disabled = true;
+        searchByNumber()
+        elementSearchNumber.disabled = false;
     }
 }
 
 function validateSearchText() {
-    text = document.getElementById("searchtext").value;
+    var elementSearchText = document.getElementById("searchtext");
+    var searchText = elementSearchText.value;
+    var searchNum = document.getElementById("searchnumber").value;
     
+    // make sure the number searchbox is empty
+    if (searchNum.length != 0) {
+        alert("You cannot search by text and numbers at the same time!");
+        elementSearchText.value = "";
+    }
     // check that input is maximum 20 characters long
-    if (text.length > 20) {
+    else if (searchText.length > 20) {
         alert("Your search may only be 20 characters long!");
+    }
+    // hide the search results (box empty)
+    else if (searchText.length == 0) {
+        alert("textbox empty!")
+    }
+    else {
+        // execute the search (don't allow input while searching)
+        elementSearchText.disabled = true;
+        searchByText()
+        elementSearchText.disabled = false;
     }
 
     var pat = /^[a-z]+$/;
 
     // check that input is lowercase only
-    if(!pat.test(text)) {
+    if(!pat.test(searchText)) {
         alert("You may only enter lowercase letters!");
         document.getElementById("searchtext").value = "";
     }
@@ -132,4 +166,9 @@ function showMessage(message) {
 
 function closeMessage() {
     document.getElementById("overlay").style.display = "none";
+}
+
+// this function hides the search results
+function hideSearchResults() {
+    document.getElementById("search").style.display = "none";
 }
