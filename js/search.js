@@ -1,3 +1,4 @@
+'use strict';
 var pokemonList = []
 
 pokemonList.push({number:"1", name:"bulbasaur", type:"Grass / Poison", attack:"118", defense:"118", stamina:"90"});
@@ -24,8 +25,8 @@ pokemonList.push({number:"20", name:"raticate", type:"Normal", attack:"161", def
 // this function checks to make sure the number search box only contains numbers
 function validateSearchNumber() {
     var elementSearchNumber = document.getElementById("searchnumber");
-    searchNum = elementSearchNumber.value;
-    searchText = document.getElementById("searchtext").value;
+    var searchNum = elementSearchNumber.value;
+    var searchText = document.getElementById("searchtext").value;
 
     // make sure the text searchbox is empty
     if (searchText.length != 0) {
@@ -44,13 +45,14 @@ function validateSearchNumber() {
     }
     // hide the search results (box empty)
     else if (searchNum.length == 0) {
-        alert("textbox empty!")
+        hideSearchResults()
     }
     else {
         // execute the search (don't allow input while searching)
         elementSearchNumber.disabled = true;
         searchByNumber()
         elementSearchNumber.disabled = false;
+        elementSearchNumber.focus();
     }
 }
 
@@ -70,13 +72,14 @@ function validateSearchText() {
     }
     // hide the search results (box empty)
     else if (searchText.length == 0) {
-        alert("textbox empty!")
+        hideSearchResults()
     }
     else {
         // execute the search (don't allow input while searching)
         elementSearchText.disabled = true;
         searchByText()
         elementSearchText.disabled = false;
+        elementSearchText.focus();
     }
 
     var pat = /^[a-z]+$/;
@@ -93,34 +96,30 @@ function searchByNumber() {
     var searchKey = document.getElementById("searchnumber").value;
     var searchResults = [];
 
-    for(i = 0; i < 20; i++) {
+    for(var i = 0; i < 20; i++) {
         if (pokemonList[i].number == searchKey) {
-            searchResults.unshift(
-                "Name: " + pokemonList[i].name + 
-                "\nNumber: " + pokemonList[i].number +
-                "\nType: " + pokemonList[i].type +
-                "\nAttack: " + pokemonList[i].attack +
-                "\nDefense: " + pokemonList[i].defense +
-                "\nStamina: " + pokemonList[i].stamina);
+            searchResults.unshift(pokemonList[i]);
+                // "Name: " + pokemonList[i].name + 
+                // "\nNumber: " + pokemonList[i].number +
+                // "\nType: " + pokemonList[i].type +
+                // "\nAttack: " + pokemonList[i].attack +
+                // "\nDefense: " + pokemonList[i].defense +
+                // "\nStamina: " + pokemonList[i].stamina);
         }
         else if (pokemonList[i].number.includes(searchKey)) {
-            searchResults.push(
-                "Name: " + pokemonList[i].name + 
-                "\nNumber: " + pokemonList[i].number +
-                "\nType: " + pokemonList[i].type +
-                "\nAttack: " + pokemonList[i].attack +
-                "\nDefense: " + pokemonList[i].defense +
-                "\nStamina: " + pokemonList[i].stamina);
+            searchResults.push(pokemonList[i]);
+                // "Name: " + pokemonList[i].name + 
+                // "\nNumber: " + pokemonList[i].number +
+                // "\nType: " + pokemonList[i].type +
+                // "\nAttack: " + pokemonList[i].attack +
+                // "\nDefense: " + pokemonList[i].defense +
+                // "\nStamina: " + pokemonList[i].stamina);
         }
 
         if (searchResults.length == 5) break;
     }
 
-    var message = "Showing first 5 results (Click anywhere to close):";
-    for(i = 0; i < searchResults.length; i++) {
-        message += "\n\n" + searchResults[i];
-    }
-    showMessage(message);
+    showSearchResults(searchResults);
 }
 
 // this function executes the search by Text
@@ -128,34 +127,18 @@ function searchByText() {
     var searchKey = document.getElementById("searchtext").value;
     var searchResults = [];
 
-    for(i = 0; i < 20; i++) {
+    for(var i = 0; i < 20; i++) {
         if (pokemonList[i].name == searchKey) {
-            searchResults.unshift(
-                "Name: " + pokemonList[i].name + 
-                "\nNumber: " + pokemonList[i].number +
-                "\nType: " + pokemonList[i].type +
-                "\nAttack: " + pokemonList[i].attack +
-                "\nDefense: " + pokemonList[i].defense +
-                "\nStamina: " + pokemonList[i].stamina);
+            searchResults.unshift(pokemonList[i]); // exact match, add to top
         }
-        else if (pokemonList[i].name.includes(searchKey)) {
-            searchResults.push(
-                "Name: " + pokemonList[i].name + 
-                "\nNumber: " + pokemonList[i].number +
-                "\nType: " + pokemonList[i].type +
-                "\nAttack: " + pokemonList[i].attack +
-                "\nDefense: " + pokemonList[i].defense +
-                "\nStamina: " + pokemonList[i].stamina);
+        else if (pokemonList[i].name.includes(searchKey)) { // add to end
+            searchResults.push(pokemonList[i]);
         }
 
         if (searchResults.length == 5) break;
     }
 
-    var message = "Showing first 5 results (Click anywhere to close):";
-    for(i = 0; i < searchResults.length; i++) {
-        message += "\n\n" + searchResults[i];
-    }
-    showMessage(message);
+    showSearchResults(searchResults);
 }
 
 // this function was created to display long search results in a closeable way:
@@ -170,5 +153,42 @@ function closeMessage() {
 
 // this function hides the search results
 function hideSearchResults() {
-    document.getElementById("search").style.display = "none";
+    console.log("remove search box");
+    var divSearchResults = document.querySelector("#searchresults");
+
+    document.getElementById("searchboxes").removeChild(divSearchResults);
+}
+
+// this function shows the search results
+function showSearchResults(list) {
+    // try to clear any previous results
+    try {
+        hideSearchResults();
+    } catch(err) {
+        
+    }
+
+    // build the new search results div
+    var divSearchResults = document.createElement("div");
+    divSearchResults.id = "searchresults";
+    var elementList = document.createElement("ul"); // create a new list element
+    divSearchResults.appendChild(elementList); // add the list element to the div
+
+    // iterate through the list, and attach list items to the list
+    list.forEach(pokemon => addListItem(elementList, pokemon));
+
+    // finally, attach the new div below the textboxes
+    document.getElementById("searchboxes").appendChild(divSearchResults);
+}
+
+function addListItem(parentList, pokemon) {
+    var newListItem = document.createElement("li");
+    newListItem.className = "results";
+
+    var imageElement = document.createElement("img");
+    imageElement.src = "images/" + pokemon.number + ".png";
+    imageElement.alt = pokemon.name;
+
+    newListItem.appendChild(imageElement);
+    parentList.appendChild(newListItem);
 }
