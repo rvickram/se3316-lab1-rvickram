@@ -171,6 +171,10 @@ function showSearchResults(list) {
     // build the new search results div
     var divSearchResults = document.createElement("div");
     divSearchResults.id = "searchresults";
+    var searchResultsTitle = document.createElement("h2");
+    searchResultsTitle.innerText = "Search results:";
+    searchResultsTitle.style.color = "red";
+    divSearchResults.appendChild(searchResultsTitle); // add a title to the search results
     var elementList = document.createElement("ul"); // create a new list element
     divSearchResults.appendChild(elementList); // add the list element to the div
 
@@ -192,7 +196,12 @@ function addListItem(parentList, pokemon) {
 
     // add the text information
     var description = document.createElement("p");
-    description.innerText = pokemon.name;
+    description.className = "results";
+    description.innerText = "Name: " + pokemon.name + "\n" +
+                            "Type: " + pokemon.type + "\n" +
+                            "Attack: " + pokemon.attack + "\n" +
+                            "Defense: " + pokemon.defense + "\n" +
+                            "Stamina: " + pokemon.stamina;
 
     newListItem.appendChild(imageElement);
     newListItem.appendChild(description);
