@@ -174,6 +174,7 @@ function showSearchResults(list) {
     var searchResultsTitle = document.createElement("h2");
     searchResultsTitle.innerText = "Search results:";
     searchResultsTitle.style.color = "red";
+    searchResultsTitle.style.paddingLeft = "40px";
     divSearchResults.appendChild(searchResultsTitle); // add a title to the search results
     var elementList = document.createElement("ul"); // create a new list element
     divSearchResults.appendChild(elementList); // add the list element to the div
