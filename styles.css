@@ -18,6 +18,9 @@ li.results {
 
     display: flex;
 }
+li.results p {
+    padding-left: 50px;
+}
 li.results img {
     width: 50%;
     height: 50%;
